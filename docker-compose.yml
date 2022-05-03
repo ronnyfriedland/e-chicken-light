@@ -1,0 +1,15 @@
+version: "3.5"
+
+networks:
+  chicken:
+
+services:
+  e-chicken-light:
+    container_name: "e-chicken-light"
+    build:
+      context: .
+    environment:
+      - LAT=51.124439
+      - LNG=13.581610
+    networks:
+      - chicken
