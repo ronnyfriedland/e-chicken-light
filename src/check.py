@@ -15,7 +15,7 @@ args = parser.parse_args()
 config = vars(args)
 
 
-sun = Sun(config["latitude"], config["longitude"])
+sun = Sun(float(config["latitude"]), float(config["longitude"]))
 
 now = datetime.datetime.now()
 
@@ -33,15 +33,18 @@ try:
     if config["verbose"] is True:
         print("sunrise: {}".format(today_sr))
         print("sunset: {}".format(today_ss))
+        print("sunshine: {}".format(today_sunshine))
 
     if today_sunshine < datetime.timedelta(hours=8):
-      today_light = datetime.timedelta(hours=8) - today_sunshine
+      today_duration = datetime.timedelta(hours=8) - today_sunshine
+      today_start = today_sr - today_duration
 
       if config["verbose"] is True:
-        print("duration: {}".format(today_light))
+        print("start: {}".format(today_start))
+        print("duration: {}".format(today_duration))
 
       # turn on the lights
-      create_cron("e-chicken-light-job", "/usr/local/bin/python /usr/src/app/light.py --duration {duration}".format(duration = today_light.seconds), start=today_ss)
+      create_cron("e-chicken-light-job", "/usr/local/bin/python /usr/src/app/light.py --duration {duration}".format(duration = today_duration.seconds), start=today_start)
     else:
       print('On {} at {} / {} the sunrise was at {} and the sunset was at {}.'.
           format(now, config["latitude"], config["longitude"], today_sr.strftime('%H:%M'), today_ss.strftime('%H:%M')))
