@@ -9,7 +9,7 @@ next_execution = datetime.datetime.now() + datetime.timedelta(minutes=5)
 
 create_cron("e-chicken-light-check-job", "/usr/local/bin/python /usr/src/app/check.py --verbose",
             start=next_execution,
-            interval=ExecutionPlan.weekly)
+            interval=ExecutionPlan.WEEKLY)
 
 app = Flask(__name__)
 

@@ -1,9 +1,10 @@
 """
 Control gpio
 """
-from RPi import GPIO
 import time
 import argparse
+
+from RPi import GPIO
 
 GPIO.setmode(GPIO.BCM)
 

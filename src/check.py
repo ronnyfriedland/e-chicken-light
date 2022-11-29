@@ -11,9 +11,12 @@ from _cron import create_cron
 
 parser = argparse.ArgumentParser(description="Job arguments",
                                  formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument("-a", "--latitude", default=float(os.getenv('LAT', '0.0')), help="latitute")
-parser.add_argument("-b", "--longitude", default=float(os.getenv('LNG', '0.0')), help="longitude")
-parser.add_argument("-v", "--verbose", action="store_true", help="increase verbosity")
+parser.add_argument("-a", "--latitude",
+                    default=float(os.getenv('LAT', '0.0')), help="latitute")
+parser.add_argument("-b", "--longitude",
+                    default=float(os.getenv('LNG', '0.0')), help="longitude")
+parser.add_argument("-v", "--verbose", action="store_true",
+                    help="increase verbosity")
 args = parser.parse_args()
 config = vars(args)
 
@@ -47,8 +50,9 @@ try:
 
         # turn on the lights
         create_cron("e-chicken-light-job",
-            f"/usr/local/bin/python /usr/src/app/light.py --duration {today_duration.seconds}", start=today_ss)
+                    f"/usr/local/bin/python /usr/src/app/light.py --duration {today_duration.seconds}", start=today_ss)
     else:
-        print(f"On {now} at {config['latitude']} / {config['longitude']} the sunrise was at {today_sr.strftime('%H:%M')} and the sunset was at {today_ss.strftime('%H:%M')}.")
+        print(
+            f"On {now} at {config['latitude']} / {config['longitude']} the sunrise was at {today_sr.strftime('%H:%M')} and the sunset was at {today_ss.strftime('%H:%M')}.")
 except SunTimeException as e:
     print(f"Error: {e}.")
